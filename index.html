@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wholehearted Community — Riyadh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#060B17;
+    --bg-deep:#0A1024;
+    --coral:#D98868;
+    --coral-bright:#E8A07E;
+    --teal:#6FB3AC;
+    --teal-bright:#8FD6D0;
+    --gold:#F3D9A8;
+    --gold-hot:#F7CE8E;
+    --text-primary:#F3EFE6;
+    --text-muted:#8A93AC;
+    --line:rgba(243,239,230,0.14);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{ height:100%; background:var(--bg-void); }
+
+  body{
+    min-height:100vh;
+    color:var(--text-primary);
+    font-family:'Manrope', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* fixed atmosphere, shared by the whole page */
+  #stars{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  .nebula{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(50% 40% at 18% 78%, rgba(217,136,104,0.07) 0%, transparent 70%),
+      radial-gradient(45% 38% at 86% 22%, rgba(111,179,172,0.07) 0%, transparent 70%),
+      radial-gradient(120% 90% at 50% 0%, #0D1530 0%, var(--bg-void) 55%, #04070F 100%);
+  }
+
+  /* ---- mark, top-left ---- */
+  .brand-mark{
+    position:fixed;
+    top:28px;
+    left:28px;
+    z-index:5;
+    width:60px;
+    height:55px;
+  }
+
+  .heart-clip{
+    position:absolute;
+    inset:0;
+    clip-path: path('M115,205 C115,205 12,132 12,66 C12,26 46,4 78,18 C99,27 112,45 115,60 C118,45 131,27 152,18 C184,4 218,26 218,66 C218,132 115,205 115,205 Z');
+    overflow:hidden;
+  }
+
+  .heart-fill{
+    position:absolute; inset:0;
+    opacity:0;
+    animation: fillReveal 2.6s cubic-bezier(0.22,1,0.36,1) forwards 4.4s;
+  }
+
+  .swirl{
+    position:absolute;
+    top:-45%; left:-45%;
+    width:190%; height:190%;
+    background:conic-gradient(from 0deg at 50% 47%,
+      var(--coral) 0deg, var(--coral-bright) 55deg, var(--gold-hot) 100deg,
+      var(--gold) 150deg, var(--teal-bright) 200deg, var(--teal) 255deg,
+      var(--coral) 320deg, var(--coral) 360deg);
+    animation:spin 46s linear infinite;
+  }
+
+  .swirl-mask{
+    position:absolute; inset:0;
+    background:repeating-conic-gradient(from 0deg at 50% 47%,
+      rgba(6,11,23,0.92) 0deg 7deg, transparent 7deg 16deg);
+    mix-blend-mode:multiply;
+    animation:spin 46s linear infinite reverse;
+    opacity:0.85;
+  }
+
+  .core-glow{
+    position:absolute;
+    width:70%; height:70%; left:15%; top:30%;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,238,205,0.95) 0%, rgba(247,206,142,0.55) 30%, transparent 70%);
+    filter:blur(2px);
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+
+  .heart-sheen{
+    position:absolute; inset:0;
+    background:linear-gradient(155deg, rgba(255,255,255,0.10) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.25) 100%);
+  }
+
+  .heart-outline{
+    fill:none;
+    stroke:url(#outlineGradient);
+    stroke-width:3.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:1000;
+    stroke-dashoffset:1000;
+    animation: drawOutline 4.5s ease-in-out forwards;
+  }
+
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @keyframes pulse{
+    0%, 100%{ transform:scale(0.86); opacity:0.75; }
+    50%{ transform:scale(1.08); opacity:1; }
+  }
+
+  @keyframes drawOutline{
+    0%{ stroke-dashoffset:var(--len, 1000); opacity:0; }
+    6%{ opacity:1; }
+    100%{ stroke-dashoffset:0; opacity:1; }
+  }
+
+  @keyframes fillReveal{
+    0%{ opacity:0; transform:scale(0.92); }
+    65%{ opacity:1; transform:scale(1); }
+    82%{ transform:scale(1.12); }
+    100%{ opacity:1; transform:scale(1); }
+  }
+
+  /* ---- hero ---- */
+  .hero{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:120px 24px 64px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size:clamp(32px, 6vw, 52px);
+    letter-spacing:-0.01em;
+    line-height:1.12;
+    max-width:14ch;
+    margin-bottom:48px;
+    min-height:2.3em;
+  }
+
+  h1 .tw-color{
+    font-weight:500;
+    background:linear-gradient(100deg, var(--coral-bright), var(--gold-hot) 45%, var(--teal-bright));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  h1 .tw-plain{
+    font-style:italic;
+    font-weight:400;
+    color:var(--text-primary);
+  }
+
+  .tw-caret{
+    display:inline-block;
+    width:2px;
+    height:0.92em;
+    margin-left:2px;
+    vertical-align:-0.08em;
+    background:var(--gold-hot);
+    animation:blink 0.85s step-end infinite;
+  }
+
+  .tw-caret.done{ animation:none; opacity:0; transition:opacity 0.4s; }
+
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .actions{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    width:100%;
+    max-width:340px;
+  }
+
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:17px 22px;
+    border-radius:999px;
+    font-family:'Manrope', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.01em;
+    text-decoration:none;
+    border:1px solid var(--line);
+    color:var(--text-primary);
+    background:rgba(243,239,230,0.03);
+    transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    opacity:0;
+    transform:translateY(14px);
+  }
+
+  .actions.reveal .btn{
+    animation:riseIn 0.7s ease forwards;
+  }
+
+  .actions.reveal .btn:nth-child(1){ animation-delay:0.05s; }
+  .actions.reveal .btn:nth-child(2){ animation-delay:0.18s; }
+  .actions.reveal .btn:nth-child(3){ animation-delay:0.31s; }
+
+  .btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(243,239,230,0.32);
+    background:rgba(243,239,230,0.07);
+  }
+
+  .btn.primary{
+    background:linear-gradient(100deg, var(--coral), var(--gold-hot) 50%, var(--teal));
+    color:#0A0E1A;
+    border:none;
+    font-weight:700;
+  }
+
+  .btn.primary:hover{ transform:translateY(-2px); filter:brightness(1.06); }
+
+  @keyframes riseIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .swirl, .swirl-mask, .core-glow{ animation:none; }
+    .heart-outline{ animation:none; stroke-dashoffset:0; opacity:1; }
+    .heart-fill{ animation:none; opacity:1; transform:none; }
+    .actions.reveal .btn{ animation:none; opacity:1; transform:none; }
+  }
+
+  @media (max-width:480px){
+    .brand-mark{ top:20px; left:20px; width:48px; height:44px; }
+    .hero{ padding-top:96px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="nebula"></div>
+
+<div class="brand-mark">
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="outlineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#E8A07E"/>
+        <stop offset="50%" stop-color="#F7CE8E"/>
+        <stop offset="100%" stop-color="#8FD6D0"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="heart-clip">
+    <div class="heart-fill">
+      <div class="swirl"></div>
+      <div class="swirl-mask"></div>
+      <div class="core-glow"></div>
+      <div class="heart-sheen"></div>
+    </div>
+  </div>
+
+  <svg viewBox="0 0 230 210" style="position:absolute; inset:0; overflow:visible;">
+    <path class="heart-outline" d="M115,205 C115,205 12,132 12,66 C12,26 46,4 78,18 C99,27 112,45 115,60 C118,45 131,27 152,18 C184,4 218,26 218,66 C218,132 115,205 115,205 Z"/>
+  </svg>
+</div>
+
+<main class="hero">
+  <h1><span class="tw-color" id="twColor"></span><br><span class="tw-plain" id="twPlain"></span><span class="tw-caret" id="twCaret"></span></h1>
+
+  <div class="actions" id="actions">
+    <a class="btn primary" href="https://www.skool.com/" target="_blank" rel="noopener">
+      Join Our Exclusive Community
+    </a>
+    <a class="btn" href="https://events.thewholehearted.abdulazizalmutlaq.sa" target="_blank" rel="noopener">
+      Attend Our Events
+    </a>
+    <a class="btn" href="mailto:thewholehearted@abdulazizalmutlaq.sa">
+      Contact Us
+    </a>
+  </div>
+</main>
+
+<script>
+  // set the real path length so the outline draws itself precisely,
+  // rather than approximating with a fixed dasharray
+  const outline = document.querySelector('.heart-outline');
+  if (outline && outline.getTotalLength) {
+    const len = Math.ceil(outline.getTotalLength());
+    outline.style.strokeDasharray = len;
+    outline.style.setProperty('--len', len);
+    outline.style.strokeDashoffset = len;
+    outline.style.animation = 'none';
+    void outline.offsetWidth;
+    outline.style.animation = '';
+  }
+
+  // ---- title types itself out on load ----
+  const colorEl = document.getElementById('twColor');
+  const plainEl = document.getElementById('twPlain');
+  const caret   = document.getElementById('twCaret');
+  const actions = document.getElementById('actions');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce) {
+    colorEl.textContent = 'The Wholehearted';
+    plainEl.textContent = 'Community';
+    caret.remove();
+    actions.classList.add('reveal');
+  } else {
+    const line1 = 'The Wholehearted';
+    const line2 = 'Community';
+    let i = 0, j = 0;
+    const speed = 68; // ms per character — steady, readable
+
+    function typeLine1(){
+      if (i <= line1.length){
+        colorEl.textContent = line1.slice(0, i);
+        i++;
+        setTimeout(typeLine1, speed);
+      } else {
+        setTimeout(typeLine2, 260);
+      }
+    }
+    function typeLine2(){
+      if (j <= line2.length){
+        plainEl.textContent = line2.slice(0, j);
+        j++;
+        setTimeout(typeLine2, speed);
+      } else {
+        caret.classList.add('done');
+        actions.classList.add('reveal');
+      }
+    }
+    setTimeout(typeLine1, 500);
+  }
+
+  // gentle starfield, matches the logo's ambient dust
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const count = Math.floor((canvas.width * canvas.height) / 8000);
+    stars = Array.from({length: count}, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.1 + 0.2,
+      base: Math.random() * 0.5 + 0.15,
+      speed: Math.random() * 0.015 + 0.004,
+      phase: Math.random() * Math.PI * 2
+    }));
+  }
+
+  let t = 0;
+  function draw(){
+    t += 1;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for(const s of stars){
+      const flicker = s.base + Math.sin(t * s.speed + s.phase) * 0.18;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(243,239,230,${Math.max(flicker,0)})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+</script>
+
+</body>
+</html>
